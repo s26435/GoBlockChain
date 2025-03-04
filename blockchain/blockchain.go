@@ -2,7 +2,7 @@ package blockchain
 
 import (
 	"github.com/boltdb/bolt"
-	. "go.mod/utils"
+	u "go.mod/utils"
 )
 
 const dbFile = "blockchain.db"
@@ -21,7 +21,7 @@ func (bc *BlockChain) AddBlock(data string){
 		lastHash = b.Get([]byte("l"))
 		return nil
 	})
-	Must(err)
+	u.Must(err)
 
 	newBlock := NewBlock(data, lastHash)
 
@@ -29,35 +29,36 @@ func (bc *BlockChain) AddBlock(data string){
 		b := tx.Bucket([]byte(blocksBucket))
 
 		err := b.Put(newBlock.Hash, newBlock.Serialize())
-		Must(err)
+		u.Must(err)
 
 		err = b.Put([]byte("l"), newBlock.Hash)
-		Must(err)
+		u.Must(err)
 
 		bc.tip = newBlock.Hash
 		return nil
 	})
-
+	u.Must(err)
 }
 
 func NewBlockChain()*BlockChain{
 	var tip []byte
 	db, err := bolt.Open(dbFile, 0600, nil)
-	Must(err)
+	u.Must(err)
 	err = db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(blocksBucket))
 		if b == nil{
 			genesis := NewGenesisBlock()
 			b, err := tx.CreateBucket([]byte(blocksBucket))
-			Must(err)
-			Must(b.Put(genesis.Hash, genesis.Serialize()))
-			Must(b.Put([]byte("l"), genesis.Hash))
+			u.Must(err)
+			u.Must(b.Put(genesis.Hash, genesis.Serialize()))
+			u.Must(b.Put([]byte("l"), genesis.Hash))
 			tip = genesis.Hash
 		}else{
 			tip = b.Get([]byte("l"))
 		}
 		return nil
 	})
+	u.Must(err)
 	bc := BlockChain{tip, db}
 	return &bc
 }

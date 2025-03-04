@@ -5,7 +5,7 @@ import (
 	"encoding/gob"
 	"time"
 
-	. "go.mod/utils"
+	u "go.mod/utils"
 )
 
 type Block struct {
@@ -20,7 +20,7 @@ type Block struct {
 func (b *Block)Serialize()[]byte{
 	var result bytes.Buffer
 	encoder := gob.NewEncoder(&result)
-	Must(encoder.Encode(b))
+	u.Must(encoder.Encode(b))
 	return result.Bytes()
 }
 
@@ -28,7 +28,7 @@ func (b *Block)Serialize()[]byte{
 func DeserializeBlock(d []byte)*Block{
 	var block Block
 	decoder := gob.NewDecoder(bytes.NewReader(d))
-	Must(decoder.Decode(&block))
+	u.Must(decoder.Decode(&block))
 	return &block
 }
 

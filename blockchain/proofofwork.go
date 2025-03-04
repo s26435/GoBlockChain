@@ -2,7 +2,7 @@ package blockchain
 
 import(
 	"math/big"
-	. "go.mod/utils"
+	u "go.mod/utils"
 	"math"
 	"bytes"
 	"crypto/sha256"
@@ -32,9 +32,9 @@ func (pow *ProofOfWork)prepareData(nonce int)[]byte{
 		[][]byte{
 			pow.block.PrevBlockHash,
 			pow.block.Data,
-			IntToHex(pow.block.Timestamp),
-			IntToHex(int64(targetBits)),
-			IntToHex(int64(nonce)),
+			u.IntToHex(pow.block.Timestamp),
+			u.IntToHex(int64(targetBits)),
+			u.IntToHex(int64(nonce)),
 		},
 		[]byte{},
 	)

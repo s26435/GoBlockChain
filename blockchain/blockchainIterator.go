@@ -3,7 +3,7 @@ package blockchain
 import (
 	"github.com/boltdb/bolt"
 
-	. "go.mod/utils"
+	u "go.mod/utils"
 )
 type BlockchainIterator struct {
 	currentHash []byte
@@ -19,7 +19,7 @@ func (i *BlockchainIterator)Next()*Block{
 		block = DeserializeBlock(encodedBlock)
 		return nil
 	})
-	Must(err)
+	u.Must(err)
 
 	i.currentHash = block.PrevBlockHash
 	return block

@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	. "go.mod/utils"
+	u "go.mod/utils"
 )
 
 type CLI struct {
@@ -41,10 +41,10 @@ func (cli *CLI) Run() {
 	switch(os.Args[1]){
 	case "addblock":
 		err := addBlockCmd.Parse(os.Args[2:])
-		Must(err)
+		u.Must(err)
 	case "printchain":
 		err := printChainCmd.Parse(os.Args[2:])
-		Must(err)
+		u.Must(err)
 	default:
 		cli.printUsage()
 		os.Exit(1)
